@@ -65,4 +65,9 @@ public enum GPTModel: String, Codable {
     case text_davinci__001 = "text-davinci:001"
     case text_curie__001 = "text-curie:001"
     case text_babbage__001 = "text-babbage:001"
+
+    case gpt_4 = "gpt-4"
+    case gpt_4_0314 = "gpt-4-0314"
+    case gpt_4_32k = "gpt-4-32k"
+    case gpt_4_32_0314 = "gpt-4-32k-0314"
 }

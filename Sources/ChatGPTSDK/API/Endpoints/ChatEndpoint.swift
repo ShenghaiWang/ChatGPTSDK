@@ -1,73 +1,66 @@
 import Foundation
 
-public struct CompletionEndpoint: Endpoint {
+public struct ChatEndpoint: Endpoint {
+    public struct Message: Codable {
+        public let role: String
+        public let content: String
+
+        public init(role: String, content: String) {
+            self.role = role
+            self.content = content
+        }
+    }
     public struct Request: Codable {
         public let model: GPTModel
-        public let prompt: String
-        public let suffix: String?
-        public let maxTokens: Int?
+        public let messages: [Message]
         public let temperature: Float?
         public let topP: Float?
         public let n: Int?
         public let stream: Bool?
-        public let logprobs: Int?
-        public let echo: Bool?
         public let stop: String?
+        public let maxTokens: Int?
         public let presencePenalty: Float?
         public let frequencyPenalty: Float?
-        public let bestOf: Int?
         public let logitBias: String?
         public let user: String?
 
         enum CodingKeys: String, CodingKey {
             case model
-            case prompt
-            case suffix
-            case maxTokens = "max_tokens"
+            case messages
             case temperature
             case topP = "top_p"
             case n
             case stream
-            case logprobs
-            case echo
             case stop
+            case maxTokens = "max_tokens"
             case presencePenalty = "presence_penalty"
             case frequencyPenalty = "frequency_penalty"
-            case bestOf = "best_of"
             case logitBias = "logit_bias"
             case user
         }
 
-        public init(model: GPTModel = .text_davinci_003,
-                    prompt: String,
-                    suffix: String? = nil,
-                    maxTokens: Int? = nil,
+        public init(model: GPTModel = .gpt_3_5_turbo,
+                    messages: [Message],
                     temperature: Float? = nil,
                     topP: Float? = nil,
                     n: Int? = nil,
                     stream: Bool? = nil,
-                    logprobs: Int? = nil,
-                    echo: Bool? = nil,
                     stop: String? = nil,
+                    maxTokens: Int? = nil,
                     presencePenalty: Float? = nil,
                     frequencyPenalty: Float? = nil,
-                    bestOf: Int? = nil,
                     logitBias: String? = nil,
                     user: String? = nil) {
             self.model = model
-            self.prompt = prompt
-            self.suffix = suffix
-            self.maxTokens = maxTokens
+            self.messages = messages
             self.temperature = temperature
             self.topP = topP
             self.n = n
             self.stream = stream
-            self.logprobs = logprobs
-            self.echo = echo
             self.stop = stop
+            self.maxTokens = maxTokens
             self.presencePenalty = presencePenalty
             self.frequencyPenalty = frequencyPenalty
-            self.bestOf = bestOf
             self.logitBias = logitBias
             self.user = user
         }
@@ -75,15 +68,13 @@ public struct CompletionEndpoint: Endpoint {
 
     public struct Response: Codable {
         public struct Choice: Codable {
-            public let text: String
+            public let message: Message
             public let index: Int
-            public let logprobs: String?
             public let finishReason: String
 
             enum CodingKeys: String, CodingKey {
-                case text
+                case message
                 case index
-                case logprobs
                 case finishReason = "finish_reason"
             }
         }
@@ -97,7 +88,7 @@ public struct CompletionEndpoint: Endpoint {
     }
     
     public private(set) var urlRequest: URLRequest = {
-        var request = URLRequest(url: URL(string: "https://api.openai.com/v1/completions")!)
+        var request = URLRequest(url: URL(string: "https://api.openai.com/v1/chat/completions")!)
         request.httpMethod = "POST"
         return request
     }()
