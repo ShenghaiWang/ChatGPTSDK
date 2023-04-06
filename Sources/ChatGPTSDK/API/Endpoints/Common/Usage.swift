@@ -2,7 +2,7 @@ import Foundation
 
 public struct Usage: Codable {
     public let promptTokens: Int
-    public let completionTokens: Int
+    public let completionTokens: Int?
     public let totalTokens: Int
     
     enum CodingKeys: String, CodingKey {
