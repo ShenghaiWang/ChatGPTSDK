@@ -1,8 +1,12 @@
 # ChatGPTSDK
 
-A description of this package.
+ChatGPT SDK: Includes all the endpoints provided by OpenAI.
 
-## Usage:
+## Install
+
+    .package(url: "https://github.com/ShenghaiWang/ChatGPTSDK.git", from: "1.0.0")
+
+## Usage
 
 ### 1 setup key
 
@@ -18,11 +22,13 @@ A description of this package.
     endpoint
         .sink(receiveCompletion: { error in
             // error handling
-        }, receiveValue: {[weak self] value in
+        }, receiveValue: { [weak self] value in
             self?.result = value.choices.first?.text ?? ""
         })
 
-#### vai async/await
+    Note: this is the only api that supports parameter `stream=true`
+
+#### via async/await
 
     do {
         let value = try await endpoint.run()

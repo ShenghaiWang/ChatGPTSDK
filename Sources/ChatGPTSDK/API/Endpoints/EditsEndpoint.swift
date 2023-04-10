@@ -23,9 +23,7 @@ public struct EditsEndpoint: Endpoint {
                     instruction: String,
                     n: Int? = nil,
                     temperature: Float? = nil,
-                    topP: Float? = nil,
-                    stream: Bool? = nil,
-                    stop: String? = nil) {
+                    topP: Float? = nil) {
             self.model = model
             self.input = input
             self.instruction = instruction

@@ -10,11 +10,12 @@ let package = Package(
             targets: ["ChatGPTSDK"]),
     ],
     dependencies: [
+        .package(url: "git@github.com:ShenghaiWang/ServerSideEvent.git", from: "1.0.0")
     ],
     targets: [
         .target(
             name: "ChatGPTSDK",
-            dependencies: []),
+            dependencies: ["ServerSideEvent"]),
         .testTarget(
             name: "ChatGPTSDKTests",
             dependencies: ["ChatGPTSDK"]),

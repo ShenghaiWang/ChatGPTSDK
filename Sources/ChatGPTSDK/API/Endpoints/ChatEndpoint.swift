@@ -17,7 +17,7 @@ public struct ChatEndpoint: Endpoint {
         public let topP: Float?
         public let n: Int?
         public let stream: Bool?
-        public let stop: String?
+        public let stop: [String]?
         public let maxTokens: Int?
         public let presencePenalty: Float?
         public let frequencyPenalty: Float?
@@ -45,7 +45,7 @@ public struct ChatEndpoint: Endpoint {
                     topP: Float? = nil,
                     n: Int? = nil,
                     stream: Bool? = nil,
-                    stop: String? = nil,
+                    stop: [String]? = nil,
                     maxTokens: Int? = nil,
                     presencePenalty: Float? = nil,
                     frequencyPenalty: Float? = nil,
@@ -92,6 +92,10 @@ public struct ChatEndpoint: Endpoint {
         request.httpMethod = "POST"
         return request
     }()
+
+    public var stream: Bool {
+        request.stream ?? false
+    }
 
     public let request: Request
 

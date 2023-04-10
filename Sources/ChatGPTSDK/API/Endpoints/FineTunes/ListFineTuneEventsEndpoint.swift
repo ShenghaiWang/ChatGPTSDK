@@ -22,6 +22,10 @@ public struct ListFineTuneEventsEndpoint: Endpoint {
         public let data: [CreateFineTuneEndpoint.Response.Event]
     }
 
+    public var stream: Bool {
+        request.stream ?? false
+    }
+
     public private(set) var urlRequest: URLRequest
     public let request: Request
 

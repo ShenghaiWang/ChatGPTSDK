@@ -12,7 +12,7 @@ public struct CompletionEndpoint: Endpoint {
         public let stream: Bool?
         public let logprobs: Int?
         public let echo: Bool?
-        public let stop: String?
+        public let stop: [String]?
         public let presencePenalty: Float?
         public let frequencyPenalty: Float?
         public let bestOf: Int?
@@ -48,7 +48,7 @@ public struct CompletionEndpoint: Endpoint {
                     stream: Bool? = nil,
                     logprobs: Int? = nil,
                     echo: Bool? = nil,
-                    stop: String? = nil,
+                    stop: [String]? = nil,
                     presencePenalty: Float? = nil,
                     frequencyPenalty: Float? = nil,
                     bestOf: Int? = nil,
@@ -78,7 +78,7 @@ public struct CompletionEndpoint: Endpoint {
             public let text: String
             public let index: Int
             public let logprobs: String?
-            public let finishReason: String
+            public let finishReason: String?
 
             enum CodingKeys: String, CodingKey {
                 case text
@@ -93,7 +93,7 @@ public struct CompletionEndpoint: Endpoint {
         public let created: Date
         public let model: GPTModel
         public let choices: [Choice]
-        public let usage: Usage
+        public let usage: Usage?
     }
     
     public private(set) var urlRequest: URLRequest = {
@@ -101,6 +101,10 @@ public struct CompletionEndpoint: Endpoint {
         request.httpMethod = "POST"
         return request
     }()
+
+    public var stream: Bool {
+        request.stream ?? false
+    }
 
     public let request: Request
 

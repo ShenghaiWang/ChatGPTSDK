@@ -6,6 +6,13 @@ public protocol Endpoint {
     associatedtype Response: Decodable
     var urlRequest: URLRequest { get }
     var request: Request { get }
+    var stream: Bool { get }
+}
+
+public extension Endpoint {
+    var stream: Bool {
+        false
+    }
 }
 
 extension Endpoint {
