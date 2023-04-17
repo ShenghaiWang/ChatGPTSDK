@@ -68,12 +68,17 @@ public struct ChatEndpoint: Endpoint {
 
     public struct Response: Codable {
         public struct Choice: Codable {
-            public let message: Message
+            public struct DeltaMessage: Codable {
+                let content: String
+            }
+            public let message: Message?
+            public let delta: DeltaMessage?
             public let index: Int
-            public let finishReason: String
+            public let finishReason: String?
 
             enum CodingKeys: String, CodingKey {
                 case message
+                case delta
                 case index
                 case finishReason = "finish_reason"
             }
@@ -84,7 +89,7 @@ public struct ChatEndpoint: Endpoint {
         public let created: Date
         public let model: GPTModel
         public let choices: [Choice]
-        public let usage: Usage
+        public let usage: Usage?
     }
     
     public private(set) var urlRequest: URLRequest = {
@@ -105,5 +110,11 @@ public struct ChatEndpoint: Endpoint {
             urlRequest.setValue(value, forHTTPHeaderField: key)
         }
         urlRequest.httpBody = try JSONEncoder().encode(request)
+    }
+}
+
+public extension ChatEndpoint.Response.Choice {
+    var content: String? {
+        message?.content ?? delta?.content
     }
 }
