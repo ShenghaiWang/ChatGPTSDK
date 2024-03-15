@@ -18,7 +18,7 @@ public struct EditsEndpoint: Endpoint {
             case topP = "top_p"
         }
 
-        public init(model: GPTModel = .text_davinci_edit_001,
+        public init(model: GPTModel = .gpt_3,
                     input: String? = nil,
                     instruction: String,
                     n: Int? = nil,

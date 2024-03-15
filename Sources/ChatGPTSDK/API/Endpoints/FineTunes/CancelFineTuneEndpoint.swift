@@ -15,7 +15,7 @@ public struct CancelFineTuneEndpoint: Endpoint {
 
     public init(request: Request) throws {
         self.request = request
-        urlRequest = URLRequest(url: URL(string: "https://api.openai.com/v1/fine-tunes/\(request.fineTuneId)/cancel")!)
+        urlRequest = URLRequest(url: URL(string: "https://api.openai.com/v1/fine_tuning/jobs/\(request.fineTuneId)/cancel")!)
         urlRequest.httpMethod = "POST"
         ["Authorization": "Bearer \(ChatGPTSDK.apiKey)"].forEach { key, value in
             urlRequest.setValue(value, forHTTPHeaderField: key)

@@ -2,8 +2,7 @@ import Foundation
 
 public struct UploadFilesEndpoint: Endpoint {
     public struct Request: Codable {
-        public let fileName: String
-        public let fileData: Data
+        public let file: Data
         public let purpose: File.Purpose
     }
     public struct Response: Codable {
@@ -27,8 +26,8 @@ public struct UploadFilesEndpoint: Endpoint {
         }
         let multipartForm = MultipartForm(boundary: boundary)
         multipartForm.addField(fieldName:  "file",
-                               fileName: request.fileName,
-                               data: request.fileData,
+                               fileName: "file",
+                               data: request.file,
                                mimeType: "application/json")
         multipartForm.addField(named: "purpose", value: request.purpose.rawValue)
         urlRequest.httpBody = multipartForm.data

@@ -6,7 +6,7 @@ public struct EmbeddingsEndPoint: Endpoint {
         public let input: [String]
         public let user: String?
 
-        public init(model: GPTModel = .text_embedding_ada_002,
+        public init(model: GPTModel = .text_embedding,
                     input: [String],
                     user: String? = nil) {
             self.model = model

@@ -8,7 +8,7 @@ public struct ListFineTuneEndpoint: Endpoint {
     }
 
     public private(set) var urlRequest: URLRequest = {
-        var request = URLRequest(url: URL(string: "https://api.openai.com/v1/fine-tunes")!)
+        var request = URLRequest(url: URL(string: "https://api.openai.com/v1/fine_tuning/jobs")!)
         request.httpMethod = "GET"
         return request
     }()

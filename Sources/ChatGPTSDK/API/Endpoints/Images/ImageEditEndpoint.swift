@@ -1,62 +1,52 @@
 import Foundation
 
-public struct ImagesEndpoint: Endpoint {
+public struct ImageEditEndpoint: Endpoint {
+    public typealias Response = ImagesEndpoint.Response
+    public typealias Size = ImagesEndpoint.Request.Size
+    public typealias ResponseFormat = ImagesEndpoint.Request.ResponseFormat
+
     public struct Request: Codable {
-        public enum Size: String, Codable {
-            case x256 = "256x256"
-            case x512 = "512x512"
-            case x1024 = "1024x1024"
-        }
-
-        public enum ResponseFormat: String, Codable {
-            case url
-            case b64_json
-        }
-
+        public let image: String
         public let prompt: String
+        public let mask: String?
+        public let model: GPTModel?
         public let n: Int?
         public let size: Size?
         public let responseFormat: ResponseFormat?
         public let user: String?
 
         enum CodingKeys: String, CodingKey {
+            case image
             case prompt
+            case mask
+            case model
             case n
             case size
             case responseFormat = "response_format"
             case user
         }
 
-        public init(prompt: String,
+        public init(image: String,
+                    prompt: String,
+                    mask: String? = nil,
+                    model: GPTModel? = nil,
                     n: Int? = nil,
                     size: Size? = nil,
                     responseFormat: ResponseFormat? = nil,
                     user: String? = nil) {
+            self.image = image
             self.prompt = prompt
+            self.mask = mask
+            self.model = model
             self.n = n
             self.size = size
             self.responseFormat = responseFormat
             self.user = user
         }
     }
-
-    public struct Response: Codable {
-        public struct Image: Codable {
-            public let b64JSON: String?
-            public let url: String?
-
-            enum CodingKeys: String, CodingKey {
-                case url
-                case b64JSON = "b64_json"
-            }
-        }
-
-        public let created: Date
-        public let data: [Image]
-    }
     
     public private(set) var urlRequest: URLRequest = {
-        var request = URLRequest(url: URL(string: "https://api.openai.com/v1/images/generations")!)
+        var request = URLRequest(url: URL(string: "https://api.openai.com/v1/images/edits")!)
         request.httpMethod = "POST"
         return request
     }()

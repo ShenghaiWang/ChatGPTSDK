@@ -33,7 +33,7 @@ public struct TranscriptionEndpoint: Endpoint {
         public init(fileData: Data,
                     fileName: String,
                     mimeType: String,
-                    model: GPTModel = .whisper_1,
+                    model: GPTModel = .whisper,
                     prompt: String? = nil,
                     responseFormat: ResponseFormat? = nil,
                     temperature: Float? = nil,
@@ -73,7 +73,7 @@ public struct TranscriptionEndpoint: Endpoint {
                                fileName: request.fileName,
                                data: request.fileData,
                                mimeType: request.mimeType)
-        multipartForm.addField(named: "model", value: request.model.rawValue)
+        multipartForm.addField(named: "model", value: request.model.value)
         if let prompt = request.prompt {
             multipartForm.addField(named: "prompt", value: prompt)
         }

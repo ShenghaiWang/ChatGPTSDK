@@ -18,8 +18,23 @@ public struct ListFineTuneEventsEndpoint: Endpoint {
     }
 
     public struct Response: Codable {
+        public struct Event: Codable {
+            public let id: String
+            public let createdAt: Date
+            public let level: String
+            public let message: String
+            public let object: String
+
+            enum CodingKeys: String, CodingKey {
+                case id
+                case createdAt = "created_at"
+                case level
+                case message
+                case object
+            }
+        }
         public let object: String
-        public let data: [CreateFineTuneEndpoint.Response.Event]
+        public let data: [Event]
     }
 
     public var stream: Bool {
@@ -31,11 +46,7 @@ public struct ListFineTuneEventsEndpoint: Endpoint {
 
     public init(request: Request) throws {
         self.request = request
-        if request.stream ?? false {
-            urlRequest = URLRequest(url: URL(string: "https://api.openai.com/v1/fine-tunes/\(request.fineTuneId)/events?stream=true")!)
-        } else {
-            urlRequest = URLRequest(url: URL(string: "https://api.openai.com/v1/fine-tunes/\(request.fineTuneId)/events")!)
-        }
+        urlRequest = URLRequest(url: URL(string: "https://api.openai.com/v1/fine_tuning/jobs/\(request.fineTuneId)/events")!)
         urlRequest.httpMethod = "GET"
         ["Authorization": "Bearer \(ChatGPTSDK.apiKey)"].forEach { key, value in
             urlRequest.setValue(value, forHTTPHeaderField: key)
